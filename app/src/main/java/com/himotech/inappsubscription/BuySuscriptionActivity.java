@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,7 +26,7 @@ public class BuySuscriptionActivity extends AppCompatActivity {
     private String TAG="BuyIAP";
     private boolean isInAppSupported=false;
 
-
+    private boolean isSubscriptionDone=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,22 @@ public class BuySuscriptionActivity extends AppCompatActivity {
         mTxtStatus=(TextView)findViewById(R.id.txt_subscription_status);
 
 
+
+        mBtnBuySubscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                if(!isSubscriptionDone && isInAppSupported){
+
+                    //Go for Buy Subscription
+
+                    buySubscription();
+
+                }
+
+            }
+        });
     }
 
     private void initIAB(){
@@ -84,7 +101,10 @@ public class BuySuscriptionActivity extends AppCompatActivity {
 
 
                 //Now here we can check if Purchase Already Brought
-                boolean isSubscriptionDone = inventory.hasPurchase(Constants.SKU_SUBSCRIPTION);
+                isSubscriptionDone = inventory.hasPurchase(Constants.SKU_SUBSCRIPTION);
+
+                Log.i(TAG,"Purchase of Subscription is"+ isSubscriptionDone);
+
                 // update UI accordingly
             }
         }
